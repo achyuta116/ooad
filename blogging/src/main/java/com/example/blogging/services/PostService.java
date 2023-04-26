@@ -55,6 +55,20 @@ public class PostService {
         return postDtos;
     }
 
+    public List<PostDto> getAllPostsByUser(String username) throws IOException {
+        List<Post> posts = postRepository.findByAuthor_Username(username);
+        List<PostDto> postDtos = new ArrayList<>();
+        for (Post post : posts) {
+            PostDto postDto = new PostDto();
+            postDto.setTitle(post.getTitle());
+            postDto.setId(post.getId());
+            postDto.setFile(post.getFile(userService));
+            postDto.setSubtitle(post.getSubtitle());
+            postDtos.add(postDto);
+        }
+        return postDtos;
+    }
+
     public PostDto getPostById(Long id) throws IOException {
         Post post = postRepository.findById(id).orElseThrow(
             () -> new EntityNotFoundException("Post not found"));
@@ -67,8 +81,7 @@ public class PostService {
     }
 
     public PostDto updatePostById(Long id, MultipartFile file, String title,
-                                  String subtitle)
-        throws IOException {
+                                  String subtitle) throws IOException {
         Post post = postRepository.findById(id).orElseThrow(
             () -> new EntityNotFoundException("Post not found"));
         if (title != null)
