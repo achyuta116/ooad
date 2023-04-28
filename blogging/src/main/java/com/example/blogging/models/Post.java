@@ -109,7 +109,7 @@ public class Post {
     }
 
     public String getContent() throws IOException {
-        Path filePath = Paths.get(contentFileName);
+        Path filePath = Paths.get(fileName);
         return new String(Files.readAllBytes(filePath));
     }
 
@@ -119,7 +119,9 @@ public class Post {
     }
 
     public void deleteFile() throws IOException {
-        Files.delete(Paths.get(contentFileName));
+        String userDirectory =
+            "data/" + author.getUsername() + "/"; // Change this to your actual file path
+        Files.delete(Paths.get(userDirectory + fileName));
     }
 
     public Long getId() { return id; }
