@@ -118,6 +118,10 @@ public class Post {
         Files.write(filePath, content.getBytes());
     }
 
+    public void deleteFile() throws IOException {
+        Files.delete(Paths.get(contentFileName));
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

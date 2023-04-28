@@ -87,7 +87,7 @@ public class ApiController {
     }
 
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<Void> deletePostById(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePostById(@PathVariable Long id) throws IOException {
         postService.deletePostById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

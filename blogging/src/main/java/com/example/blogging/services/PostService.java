@@ -105,8 +105,10 @@ public class PostService {
         return updatedPostDto;
     }
 
-    public void deletePostById(Long id) {
+    public void deletePostById(Long id) throws IOException {
         if (postRepository.existsById(id)) {
+            Post post = postRepository.findById(id).get();
+            post.deleteFile();
             postRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Post not found");
