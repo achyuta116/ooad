@@ -1,11 +1,15 @@
 package com.example.blogging.controllers;
 
+import com.example.blogging.dto.PostDto;
+import com.example.blogging.dto.UserDto;
+import com.example.blogging.services.PostService;
+import com.example.blogging.services.UserService;
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.blogging.dto.PostDto;
-import com.example.blogging.dto.UserDto;
-import com.example.blogging.services.PostService;
-import com.example.blogging.services.UserService;
-
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api")
 public class ApiController {
 
@@ -33,14 +33,14 @@ public class ApiController {
     @PostMapping("/users")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         UserDto createdUser = userService.createUser(userDto);
+        System.out.println(createdUser.toString());
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/users/{username}")
-    public ResponseEntity<UserDto>
-    getUserByUsername(@PathVariable String username) {
-        UserDto userDto = userService.getUserByUsername(username);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable Long id) {
+        UserDto user = userService.findUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/posts")
@@ -61,7 +61,8 @@ public class ApiController {
     }
 
     @GetMapping("/posts/user/{username}")
-    public List<PostDto> getAllPostsByUser(@PathVariable String username) throws IOException {
+    public List<PostDto> getAllPostsByUser(@PathVariable String username)
+        throws IOException {
         List<PostDto> posts = postService.getAllPostsByUser(username);
         return posts;
     }

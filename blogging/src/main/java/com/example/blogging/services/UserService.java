@@ -6,21 +6,25 @@ import com.example.blogging.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private final UserRepository userRepository;
+    @Autowired private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public UserDto createUser(UserDto userDto) {
+        if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
+            User user =
+                userRepository.findByUsername(userDto.getUsername()).get();
+            return new UserDto(user.getId(), user.getUsername(),
+                               user.getPassword(), user.getRole());
+        }
         User user = new User(userDto.getUsername(), userDto.getPassword(),
                              userDto.getRole());
         User savedUser = userRepository.save(user);
@@ -48,6 +52,18 @@ public class UserService {
         } else {
             throw new NoSuchElementException("User not found with id: " +
                                              author.getId());
+        }
+    }
+
+    public UserDto findUserById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            return new UserDto(user.getId(), user.getUsername(),
+                               user.getPassword(), user.getRole());
+        } else {
+            throw new NoSuchElementException("User not found with id: " + id);
         }
     }
 }

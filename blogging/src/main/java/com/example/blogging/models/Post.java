@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,7 +66,6 @@ public class Post {
         String userDirectory =
             "data/" + authorUsername; // Change this to your actual file path
         // Write the file contents to the file system
-        System.out.println("FJSLDFJSDJ");
         Path fos = Paths.get(userDirectory + "/" + uniqueFileName);
         if (Files.exists(fos)) {
             System.out.println("File exists!");
@@ -78,9 +76,7 @@ public class Post {
                 Files.createDirectories(d);
             }
         }
-        System.out.println("FJSLDFJSDJ");
         Files.write(fos, contentFile.getBytes());
-        System.out.println("FJSLDFJSDJ");
 
         // Update the post object with the file name and content type
         this.fileName = uniqueFileName;

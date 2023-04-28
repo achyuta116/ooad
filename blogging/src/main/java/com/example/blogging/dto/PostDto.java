@@ -10,7 +10,17 @@ public class PostDto {
 
     private byte[] bfile;
 
-    public PostDto() {
+    private String username;
+
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public PostDto() {
     }
 
     public Long getId() {

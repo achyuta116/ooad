@@ -36,6 +36,7 @@ public class PostService {
         createdPostDto.setTitle(savedPost.getTitle());
         createdPostDto.setSubtitle(savedPost.getSubtitle());
         createdPostDto.setFile(savedPost.getFile(userService));
+        createdPostDto.setUsername(username);
         return createdPostDto;
     }
 
@@ -50,6 +51,7 @@ public class PostService {
             postDto.setTitle(post.getTitle());
             postDto.setSubtitle(post.getSubtitle());
             postDto.setFile(post.getFile(userService));
+            postDto.setUsername(post.getAuthor().getUsername());
             postDtos.add(postDto);
         }
         return postDtos;
@@ -64,6 +66,7 @@ public class PostService {
             postDto.setId(post.getId());
             postDto.setFile(post.getFile(userService));
             postDto.setSubtitle(post.getSubtitle());
+            postDto.setUsername(post.getAuthor().getUsername());
             postDtos.add(postDto);
         }
         return postDtos;
@@ -77,6 +80,7 @@ public class PostService {
         postDto.setTitle(post.getTitle());
         postDto.setSubtitle(post.getSubtitle());
         postDto.setFile(post.getFile(userService));
+        postDto.setUsername(post.getAuthor().getUsername());
         return postDto;
     }
 
@@ -97,6 +101,7 @@ public class PostService {
         updatedPostDto.setTitle(savedPost.getTitle());
         updatedPostDto.setSubtitle(savedPost.getSubtitle());
         updatedPostDto.setFile(savedPost.getFile(userService));
+        updatedPostDto.setUsername(savedPost.getAuthor().getUsername());
         return updatedPostDto;
     }
 
